@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+﻿import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Product, initialProducts } from '../data/Product.tsx';
 
 interface ProductContextType {
@@ -89,3 +89,4 @@ export const useProducts = () => {
   }
   return context;
 };
+

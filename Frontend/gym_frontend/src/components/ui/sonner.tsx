@@ -1,4 +1,4 @@
-// Fix: Added missing React import to resolve namespace errors.
+﻿// Fix: Added missing React import to resolve namespace errors.
 import React from "react";
 import { Toaster as Sonner, toast } from "sonner";
 
@@ -24,3 +24,4 @@ const Toaster = ({ ...props }: ToasterProps) => {
 };
 
 export { Toaster, toast };
+

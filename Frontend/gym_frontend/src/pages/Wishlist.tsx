@@ -1,11 +1,11 @@
-
+﻿
 import React, { useEffect, useState } from 'react';
 import { useWishlist } from '../contexts/WishlistContext';
 import { ShoppingCart, Heart, Trash2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
 import { toast } from 'sonner';
-import NexusLoader from '../components/NexusLoader';
+import NuvelifeLoader from '../components/NuvelifeLoader';
 
 const Wishlist: React.FC = () => {
     const { items, showWishlist, removeFromWishlist } = useWishlist();
@@ -40,7 +40,7 @@ const Wishlist: React.FC = () => {
     if (loading) {
         return (
             <div className="bg-brand-warm min-h-screen pt-12 pb-24 flex items-center justify-center">
-                <NexusLoader />
+                <NuvelifeLoader />
             </div>
         );
     }
@@ -124,3 +124,6 @@ const Wishlist: React.FC = () => {
 };
 
 export default Wishlist;
+
+
+

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { ShoppingCart, ArrowRight, Lock, Mail, User, ShieldCheck, Zap, Activity, ChevronLeft } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext.tsx';
@@ -68,7 +68,7 @@ const Auth: React.FC<AuthProps> = ({ mode }) => {
                     <div className="w-12 h-12 bg-white flex items-center justify-center rounded-none border border-black/10 group-hover:border-brand-gold/50 transition-colors shadow-sm">
                         <ShoppingCart className="w-6 h-6 text-brand" />
                     </div>
-                    <span className="text-2xl font-black text-brand-matte tracking-widest uppercase">NEXUS</span>
+                    <span className="text-2xl font-black text-brand-matte tracking-widest uppercase">Nuvelife</span>
                 </Link>
 
                 <div className="relative z-10 max-w-xl">
@@ -102,7 +102,7 @@ const Auth: React.FC<AuthProps> = ({ mode }) => {
                 </div>
 
                 <div className="text-[10px] font-bold text-brand-matte/20 uppercase tracking-[0.4em] relative z-10">
-                    © {new Date().getFullYear()} NEXUS · PREMIUM E-COMMERCE
+                    Â© {new Date().getFullYear()} nuvelife Â· PREMIUM E-COMMERCE
                 </div>
             </div>
 
@@ -179,7 +179,7 @@ const Auth: React.FC<AuthProps> = ({ mode }) => {
                                 <input
                                     required
                                     type={showPassword ? "text" : "password"}
-                                    placeholder="••••••••"
+                                    placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     className="w-full bg-brand-warm/50 border border-black/5 px-14 py-5 text-brand-matte text-sm font-bold tracking-widest outline-none focus:border-brand-gold/30 hover:bg-brand-warm transition-all"
@@ -246,5 +246,8 @@ const Auth: React.FC<AuthProps> = ({ mode }) => {
 };
 
 export default Auth;
+
+
+
 
 

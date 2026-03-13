@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import axios from 'axios';
@@ -128,3 +128,5 @@ const AutomaticBannerSlider: React.FC = () => {
 };
 
 export default AutomaticBannerSlider;
+
+

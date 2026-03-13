@@ -1,11 +1,11 @@
-
+﻿
 import { Product, Order, User } from '../types';
 
 export const MOCK_PRODUCTS: Product[] = [
   {
     id: '1',
     name: 'Nitro Whey Isolate',
-    brand: 'Nexus',
+    brand: 'nuvelife',
     price: 54.99,
     category: 'Protein',
     subCategory: 'Whey',
@@ -33,7 +33,7 @@ export const MOCK_PRODUCTS: Product[] = [
   {
     id: '2',
     name: 'Ferocious Pre-Workout',
-    brand: 'Nexus',
+    brand: 'nuvelife',
     price: 110.00,
     category: 'Pre-Workout',
     subCategory: 'Focus',
@@ -133,7 +133,7 @@ export const MOCK_PRODUCTS: Product[] = [
   {
     id: '6',
     name: 'Omega-3 Gold',
-    brand: 'Nexus',
+    brand: 'nuvelife',
     price: 24.99,
     category: 'Vitamins',
     subCategory: 'Health',
@@ -162,7 +162,7 @@ export const MOCK_ORDERS: Order[] = [
     id: 'ORD-001',
     date: '2023-10-25',
     customerName: 'John Doe',
-    customerEmail: 'alpha@nexus.com',
+    customerEmail: 'alpha@nuvelife.com',
     total: 89.98,
     status: 'Shipped',
     items: [
@@ -176,9 +176,12 @@ export const MOCK_USERS: User[] = [
   {
     id: 'u1',
     name: 'Shop Admin',
-    email: 'admin@nexus.com',
+    email: 'admin@nuvelife.com',
     role: 'ADMIN',
     status: 'Active',
     joinDate: '2023-01-01'
   },
 ];
+
+
+

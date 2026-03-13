@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Plus, Trash2, ArrowLeft, Upload, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../../contexts/AuthContext';
 import { motion } from "framer-motion"
 import { toast } from 'sonner';
-import NexusLoader from '../../components/NexusLoader';
+import NuvelifeLoader from '../../components/NuvelifeLoader';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -84,7 +84,7 @@ const BannerManagement: React.FC = () => {
     if (loading && banners.length === 0) {
         return (
             <div className="min-h-screen bg-brand-warm flex items-center justify-center">
-                <NexusLoader />
+                <NuvelifeLoader />
             </div>
         );
     }
@@ -243,3 +243,6 @@ const BannerManagement: React.FC = () => {
 };
 
 export default BannerManagement;
+
+
+

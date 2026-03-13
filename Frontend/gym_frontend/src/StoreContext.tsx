@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+﻿import React, { createContext, useContext, useState } from 'react';
 import { CartItem, Product, User } from '../types';
 import { MOCK_USERS } from './mockData';
 
@@ -79,3 +79,4 @@ export const useStore = () => {
   if (!context) throw new Error('useStore must be used within StoreProvider');
   return context;
 };
+

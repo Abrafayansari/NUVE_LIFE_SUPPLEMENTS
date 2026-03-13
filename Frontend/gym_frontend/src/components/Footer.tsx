@@ -1,4 +1,4 @@
-
+﻿
 import React from 'react';
 import { Facebook, Twitter, Instagram, Youtube, Mail, Phone, MapPin, Zap } from 'lucide-react';
 
@@ -9,9 +9,9 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-20">
           <div className="space-y-8">
             <div className="flex items-center gap-3 text-white">
-              <img src="/src/assets/nexus_logo.jpg" alt="Nexus Logo" className="h-10 w-auto object-contain" />
+              <img src="/src/assets/nuvelife_logo.jpg" alt="\Nuvelife Logo" className="h-10 w-auto object-contain" />
               <span className="text-3xl font-black tracking-tighter uppercase">
-                NEXUS
+                NUVELIFE
               </span>
             </div>
             <p className="text-[10px] font-bold uppercase tracking-widest leading-relaxed">
@@ -47,7 +47,7 @@ const Footer: React.FC = () => {
             <ul className="space-y-6 text-[10px] font-bold uppercase tracking-[0.2em]">
               <li className="flex items-center gap-4">
                 <MapPin className="w-4 h-4 text-brand-gold" />
-                <span>Nexus Performance Lab, Karachi</span>
+                <span>nuvelife Performance Lab, Karachi</span>
               </li>
               <li className="flex items-center gap-4 text-brand-gold">
                 <Zap className="w-4 h-4" />
@@ -58,7 +58,7 @@ const Footer: React.FC = () => {
         </div>
 
         <div className="border-t border-white/10 mt-24 pt-10 flex flex-col md:flex-row justify-between items-center text-[9px] font-black uppercase tracking-[0.3em]">
-          <p>© 2024 NEXUS SUPPLEMENTS. ALL RIGHTS RESERVED.</p>
+          <p>© 2024 NUVELIFE SUPPLEMENTS. ALL RIGHTS RESERVED.</p>
           <div className="flex space-x-10 mt-6 md:mt-0">
             <a href="#" className="hover:text-white transition-luxury">PRIVACY POLICY</a>
             <a href="#" className="hover:text-white transition-luxury">TERMS OF SERVICE</a>
@@ -70,3 +70,6 @@ const Footer: React.FC = () => {
 };
 
 export default Footer;
+
+
+

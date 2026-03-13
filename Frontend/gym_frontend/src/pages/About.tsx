@@ -1,4 +1,4 @@
-
+﻿
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ShieldCheck, Zap, Target, Award } from 'lucide-react';
@@ -42,7 +42,7 @@ const About: React.FC = () => {
               </h2>
             </div>
             <p className="text-lg text-brand-matte/60 leading-relaxed font-light">
-              Nexus was born from a singular frustration: the supplement industry's obsession with marketing over results. We dismantled the traditional model to build a brand centered on transparency, high-quality ingredients, and proven results.
+              nuvelife was born from a singular frustration: the supplement industry's obsession with marketing over results. We dismantled the traditional model to build a brand centered on transparency, high-quality ingredients, and proven results.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
               <div className="space-y-4">
@@ -124,3 +124,6 @@ const About: React.FC = () => {
 };
 
 export default About;
+
+
+

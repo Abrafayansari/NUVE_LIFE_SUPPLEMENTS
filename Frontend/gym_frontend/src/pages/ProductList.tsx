@@ -1,4 +1,5 @@
-import React, { useState, useMemo, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useSearchParams } from 'react-router-dom';
 import {
     Search,
@@ -14,8 +15,10 @@ import {
     ArrowUpDown
 } from 'lucide-react';
 import { Category, fetchProducts, getCategories } from '../data/Product.tsx';
-import NexusLoader from '../components/NexusLoader';
+import NuvelifeLoader from '../components/NuvelifeLoader';
 import ProductCard from '../components/ProductCard.tsx';
+
+
 import {
     Sheet,
     SheetContent,
@@ -42,15 +45,13 @@ const ProductList: React.FC = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [maxPrice, setMaxPrice] = useState<number | undefined>(undefined);
     const [catalogMaxPrice, setCatalogMaxPrice] = useState(10000);
-    const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-    const [isFilterOpen, setIsFilterOpen] = useState(false);
     const [sortBy, setSortBy] = useState<'newest' | 'price-asc' | 'price-desc' | 'name'>('newest');
     const [products, setProducts] = useState<Product[]>([]);
     const [categories, setCategories] = useState<Category[]>([]);
     const [loading, setLoading] = useState(true);
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const [openCategories, setOpenCategories] = useState<Set<string>>(new Set());
+
     const activeCategory = searchParams.get('category') || 'All';
     const activeSubCategory = searchParams.get('subCategory') || 'All';
 
@@ -79,394 +80,217 @@ const ProductList: React.FC = () => {
                 setProducts(productsRes.products);
                 setTotalPages(productsRes.totalPages);
                 setCatalogMaxPrice(productsRes.maxPrice);
-                console.log('Fetched products:', productsRes.products);
             } catch (err) {
                 console.error(err);
             } finally {
                 setLoading(false);
             }
         };
-
         loadPageData();
     }, [activeCategory, activeSubCategory, searchQuery, maxPrice, sortBy, page]);
 
-    const isNew = (product: Product) => {
-        const now = new Date();
-        const createdAt = new Date(product.createdAt);
-        const diffInDays = (now.getTime() - createdAt.getTime()) / (1000 * 60 * 60 * 24);
-        return diffInDays <= 30;
-    };
-
-    const processedProducts = useMemo(() => products, [products]);
-
-
-    const removeCategory = () => {
-        setSearchParams(prev => {
-            const params = new URLSearchParams(prev);
-            params.delete('category');
-            params.delete('subCategory');
-            return params;
-        });
-
-    };
-    const normalize = (v: string) =>
-        v.trim().toLowerCase().replace(/\s+/g, '-');
     const clearAllFilters = () => {
         setSearchQuery('');
         setMaxPrice(undefined);
-        removeCategory();
+        setSearchParams(new URLSearchParams());
         setSortBy('newest');
     };
 
-    const FilterSidebar = () => (
-        <div className="space-y-12">
-            <div className="space-y-6">
-                <div className="flex items-center gap-3">
-                    <div className="w-1.5 h-1.5 bg-brand-gold rotate-45"></div>
-                    <h3 className="text-[11px] font-black text-brand-matte uppercase tracking-[0.4em]">Categories</h3>
-                </div>
-                <div className="space-y-4">
-                    <button
-                        onClick={removeCategory}
-                        className={`flex items-center justify-between w-full text-left text-[11px] font-bold uppercase tracking-widest px-4 py-3 transition-all rounded-sm ${activeCategory === 'All' && activeSubCategory === 'All' ? 'bg-brand-matte text-white' : 'text-brand-matte/60 hover:bg-white hover:shadow-md'}`}
-                    >
-                        All Products
-                        <ChevronDown className={`w-3 h-3 transition-transform ${activeCategory === 'All' ? 'rotate-180' : ''}`} />
-                    </button>
-
-                    {categories.map(cat => {
-                        const isOpen = openCategories.has(cat.name);
-                        return (
-                            <Collapsible key={cat.name} open={isOpen} onOpenChange={(open) => {
-                                const newOpenCategories = new Set(openCategories);
-                                if (open) {
-                                    newOpenCategories.add(cat.name);
-                                } else {
-                                    newOpenCategories.delete(cat.name);
-                                }
-                                setOpenCategories(newOpenCategories);
-                            }}>
-                                <CollapsibleTrigger asChild>
-                                    <button
-                                        className={`flex items-center justify-between w-full text-left text-[11px] font-black uppercase tracking-widest px-4 py-2 transition-all border-l-2 ${normalize(activeCategory) === normalize(cat.name) ? 'border-brand text-brand' : 'border-transparent text-brand-matte/40 hover:text-brand-matte'}`}
-                                    >
-                                        {cat.name.split(/[- ]/).map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ')}
-                                        <ChevronDown className={`w-3 h-3 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
-                                    </button>
-                                </CollapsibleTrigger>
-                                <CollapsibleContent className="space-y-1">
-                                    <div className="pl-4 space-y-1">
-                                        {cat.subCategories.map(sub => (
-                                            <button
-                                                key={sub}
-                                                onClick={() => {
-                                                    setSearchParams(prev => {
-                                                        const params = new URLSearchParams(prev);
-                                                        params.set('category', cat.name);
-                                                        params.set('subCategory', sub);
-                                                        return params;
-                                                    });
-                                                    setIsFilterOpen(false);
-                                                }}
-                                                className={`flex items-center justify-between w-full text-left text-[10px] font-bold uppercase tracking-widest px-4 py-2 transition-all rounded-sm ${normalize(activeSubCategory) === normalize(sub) ? 'bg-brand text-white shadow-lg' : 'text-brand-matte/50 hover:bg-white hover:text-brand-matte hover:shadow-sm'}`}
-                                            >
-                                                {sub.split(/[- ]/).map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ')}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </CollapsibleContent>
-                            </Collapsible>
-                        );
-                    })}
-                </div>
-            </div>
-
-            <div className="space-y-6">
-                <div className="flex items-center gap-3">
-                    <div className="w-1.5 h-1.5 bg-brand-gold rotate-45"></div>
-                    <h3 className="text-[11px] font-black text-brand-matte uppercase tracking-[0.4em]">Price Range</h3>
-                </div>
-                <div className="px-2 space-y-6">
-                    <input
-                        type="range"
-                        min="0"
-                        max={catalogMaxPrice}
-                        step="10"
-                        value={maxPrice ?? catalogMaxPrice}
-                        onChange={(e) => setMaxPrice(parseInt(e.target.value))}
-                        className="w-full accent-brand-gold bg-brand-matte/10 h-1.5 appearance-none cursor-pointer rounded-full"
-                    />
-                    <div className="flex justify-between items-center">
-                        <div className="bg-white border border-brand-matte/5 px-3 py-1 rounded-sm text-[10px] font-black text-brand-matte/40">MIN Rs.0</div>
-                        <div className="text-brand font-black text-sm italic tracking-tighter underline underline-offset-4 decoration-brand-gold/30">MAX Rs.{maxPrice ?? catalogMaxPrice}</div>
-                    </div>
-                </div>
-            </div>
-
-            <button
-                onClick={clearAllFilters}
-                className="w-full py-4 border border-brand text-brand text-[10px] font-black uppercase tracking-[0.3em] hover:bg-brand hover:text-white transition-luxury"
-            >
-                Reset Filters
-            </button>
-        </div>
-    );
-
-    const getSortLabel = () => {
-        switch (sortBy) {
-            case 'newest': return 'Sort by: Newest First';
-            case 'price-asc': return 'Price: Low to High';
-            case 'price-desc': return 'Price: High to Low';
-            case 'name': return 'Name: A to Z';
-        }
-    };
-
     return (
-        <div className="min-h-screen bg-brand-warm selection:bg-brand selection:text-white">
+        <div className="h-min-screen bg-[#FDFCFB] selection:bg-brand selection:text-white">
 
-            {/* 1. DARK HERO SECTION */}
-            <div className="bg-brand-matte pt-32 pb-24 relative overflow-hidden">
-                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20"></div>
-                <div className="absolute top-0 right-0 p-20 opacity-5">
-                    <FlaskConical className="w-96 h-96 text-white" />
+            {/* 1. EDITORIAL HERO SECTION */}
+           <header className="relative bg-white h-[60vh] min-h-[450px] overflow-hidden border-b border-orange-100">
+
+                {/* UnicornStudio Embed - Full Width Hero */}
+                <div className="absolute inset-0 z-0">
+                    <iframe
+                        src="https://www.unicorn.studio/embed/0Tz2DcWVV7b1tjQeu8Ci"
+                        className="w-full h-full"
+                        frameBorder="0"
+                        allow="autoplay; fullscreen"
+                        title="Unicorn Studio Animation"
+                    />
+                    {/* Black overlay to hide watermark - positioned bottom middle, rounded and slightly raised */}
+                    <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-60 h-14 sm:w-72 sm:h-16 bg-black rounded-xl z-10" />
                 </div>
 
-                <div className="max-w-[1700px] mx-auto px-6 relative z-10">
-                    <div className="flex flex-col lg:flex-row justify-between items-end gap-12">
-                        <div className="space-y-6">
-                            <div className="flex items-center gap-4">
-                                <Badge className="bg-brand-gold text-brand-matte font-black rounded-none px-3 py-1 border-none">SHOP</Badge>
-                                <span className="text-white/40 text-[10px] font-black uppercase tracking-[0.3em] animate-pulse">Products Available</span>
-                            </div>
-                            <h1 className="text-6xl md:text-8xl font-black text-white uppercase tracking-tighter leading-[0.85]">
-                                Shop <br />
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-gold to-white shine-gold">All Products</span>
-                            </h1>
-                        </div>
+                {/* Orange gradient accent decorations */}
+                <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-orange-400/10 to-transparent rounded-full blur-3xl" />
+                <div className="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr from-orange-500/10 to-transparent rounded-full blur-3xl" />
 
-                        <div className="w-full lg:w-[500px] relative group">
-                            <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-white/20 w-5 h-5 group-focus-within:text-brand-gold transition-colors" />
+                <div className="max-w-7xl mx-auto px-6 relative z-10 h-full flex flex-col md:flex-row items-center justify-between gap-12">
+                    <div className="max-w-xl space-y-8">
+                        <motion.div
+                            initial={{ opacity: 0, x: -30 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.8 }}
+                        >
+                        </motion.div>
+                    </div>
+
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9, rotate: 5 }}
+                        animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                        transition={{ delay: 0.2, duration: 1 }}
+                        className="relative hidden lg:block"
+                    >
+                        <div className="relative group">
+                            <div className="absolute inset-0 bg-orange-400/20 rounded-full blur-[100px] group-hover:bg-orange-500/30 transition-all" />
+                        </div>
+                    </motion.div>
+                </div> 
+
+                {/* Bottom decorative line */}
+                <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-orange-300 to-transparent opacity-30"></div>
+            </header>
+
+
+            {/* 2. MINIMAL FILTERING OPTIONS */}
+            <div className="sticky top-[64px] z-[10005] bg-white/80 backdrop-blur-md border-b border-gray-100">
+                <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-4">
+                    <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide py-2">
+                        <DropdownMenu>
+                            <DropdownMenuTrigger className="flex items-center gap-2 px-4 py-1.5 text-sm font-medium text-gray-700 hover:text-black hover:bg-gray-50 transition-all outline-none">
+                                {activeCategory === 'All' ? 'Category' : activeCategory} <ChevronDown className="w-4 h-4 opacity-30" />
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent className="bg-white border-gray-100 shadow-xl p-1 min-w-[200px]">
+                                <DropdownMenuItem onClick={() => setSearchParams({})} className="px-4 py-2.5 text-xs font-bold uppercase tracking-widest cursor-pointer hover:bg-gray-50 hover:text-brand">
+                                    All Products
+                                </DropdownMenuItem>
+                                {categories.map(cat => (
+                                    <DropdownMenuItem
+                                        key={cat.name}
+                                        onClick={() => setSearchParams({ category: cat.name })}
+                                        className="px-4 py-2.5 text-xs font-bold uppercase tracking-widest cursor-pointer hover:bg-gray-50"
+                                    >
+                                        {cat.name}
+                                    </DropdownMenuItem>
+                                ))}
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+
+                        {activeCategory !== 'All' && (
+                            <DropdownMenu>
+                                <DropdownMenuTrigger className="flex items-center gap-2 px-4 py-1.5 text-sm font-medium text-gray-700 hover:text-black hover:bg-gray-50 transition-all outline-none">
+                                    {activeSubCategory === 'All' ? 'Subcategory' : activeSubCategory} <ChevronDown className="w-4 h-4 opacity-30" />
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent className="bg-white border-gray-100 shadow-xl p-1 min-w-[200px]">
+                                    {categories.find(c => c.name === activeCategory)?.subCategories.map(sub => (
+                                        <DropdownMenuItem
+                                            key={sub}
+                                            onClick={() => setSearchParams({ category: activeCategory, subCategory: sub })}
+                                            className="px-4 py-2.5 text-xs font-bold uppercase tracking-widest cursor-pointer hover:bg-gray-50"
+                                        >
+                                            {sub}
+                                        </DropdownMenuItem>
+                                    ))}
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        )}
+
+                        <div className="h-4 w-[1px] bg-gray-200 mx-2" />
+
+                        <div className="relative group">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-300 group-focus-within:text-brand transition-colors" />
                             <input
                                 type="text"
-                                placeholder="SEARCH PRODUCTS..."
+                                placeholder="Search inventory..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full pl-16 pr-8 py-6 bg-white/5 border border-white/10 backdrop-blur-sm focus:bg-black/40 focus:border-brand-gold/50 text-white placeholder:text-white/20 text-[13px] font-bold uppercase tracking-widest outline-none transition-all"
+                                className="pl-10 pr-4 py-1.5 text-sm bg-transparent focus:bg-white focus:outline-none transition-all w-48 md:w-64"
                             />
                         </div>
                     </div>
-                </div>
-            </div>
 
-            {/* 2. LIGHT CONTENT AREA */}
-            <div className="max-w-[1700px] mx-auto px-6 -mt-10 relative z-20 pb-40">
-
-                {/* TOOLBAR (FLOATING CARD) */}
-                <div className="bg-white border-b-4 border-brand-gold shadow-[0_20px_40px_rgba(0,0,0,0.05)] p-6 mb-12 flex flex-col md:flex-row justify-between items-center gap-8">
-
-                    <div className="flex items-center gap-8 w-full md:w-auto overflow-x-auto pb-4 md:pb-0 scrollbar-hide">
-                        <Sheet open={isFilterOpen} onOpenChange={setIsFilterOpen}>
-                            <SheetTrigger asChild>
-                                <button className="lg:hidden flex items-center gap-3 px-6 py-3 bg-brand-matte text-white text-[10px] font-black uppercase tracking-widest whitespace-nowrap">
-                                    <Filter className="w-4 h-4 text-brand-gold" /> Filter Products
-                                </button>
-                            </SheetTrigger>
-                            <SheetContent side="left" className="bg-brand-warm border-none w-full max-w-sm p-10 overflow-y-auto">
-                                <SheetHeader className="mb-12">
-                                    <SheetTitle className="text-left text-3xl font-black text-brand-matte uppercase tracking-tighter">
-                                        Filters
-                                    </SheetTitle>
-                                </SheetHeader>
-                                <FilterSidebar />
-                            </SheetContent>
-                        </Sheet>
-
-                        <div className="flex items-center gap-3 shrink-0">
-                            <SlidersHorizontal className="w-4 h-4 text-brand-gold" />
-                            <span className="text-[10px] font-black uppercase tracking-widest text-brand-matte/40">
-                                {processedProducts.length} Results Found
-                            </span>
-                        </div>
-
-                        <div className="flex items-center gap-2 shrink-0">
-                            {activeCategory !== 'All' && (
-                                <Badge
-                                    className="bg-brand-matte text-white px-4 py-1.5 rounded-none flex items-center gap-2 text-[9px] font-bold uppercase tracking-wider cursor-pointer hover:bg-brand max-w-[150px] truncate"
-                                    onClick={removeCategory}
-                                    title={activeCategory}
-                                >
-                                    {activeCategory.split(/[- ]/).map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ')} <X className="w-3 h-3 shrink-0" />
-                                </Badge>
-                            )}
-                            {maxPrice !== undefined && maxPrice < catalogMaxPrice && (
-                                <Badge className="bg-brand-matte text-white px-4 py-1.5 rounded-none flex items-center gap-2 text-[9px] font-bold uppercase tracking-wider cursor-pointer hover:bg-brand" onClick={() => setMaxPrice(undefined)}>
-                                    Rs.{maxPrice} MAX <X className="w-3 h-3" />
-                                </Badge>
-                            )}
-                        </div>
-                    </div>
-
-                    <div className="flex items-center gap-6 w-full md:w-auto justify-between md:justify-end">
-                        <div className="flex bg-brand-warm p-1 gap-1">
-                            <button
-                                onClick={() => setViewMode('grid')}
-                                className={`p-3 transition-colors ${viewMode === 'grid' ? 'bg-white shadow-sm text-brand-matte' : 'text-brand-matte/20 hover:text-brand-matte'}`}
-                            >
-                                <LayoutGrid className="w-4 h-4" />
-                            </button>
-                            <button
-                                onClick={() => setViewMode('list')}
-                                className={`p-3 transition-colors ${viewMode === 'list' ? 'bg-white shadow-sm text-brand-matte' : 'text-brand-matte/20 hover:text-brand-matte'}`}
-                            >
-                                <List className="w-4 h-4" />
-                            </button>
-                        </div>
-
+                    <div className="flex items-center gap-6">
                         <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <button className="flex items-center gap-4 text-[10px] font-black uppercase tracking-widest outline-none text-brand-matte hover:text-brand transition-colors group">
-                                    <span className="text-brand-matte/30">Sort By:</span>
-                                    <div className="flex items-center gap-2">
-                                        {getSortLabel()}
-                                        <ChevronDown className="w-3 h-3 text-brand-matte/20 group-hover:text-black transition-colors" />
-                                    </div>
-                                </button>
+                            <DropdownMenuTrigger className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-[#BCAAA4] hover:text-brand transition-all outline-none">
+                                SORT BY: <span className="text-gray-900">{sortBy === 'newest' ? 'Featured' : sortBy.replace('-', ' ')}</span> <ChevronDown className="w-4 h-4 opacity-30" />
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end" className="bg-white border border-brand-matte/5 rounded-none p-0 w-[220px] shadow-2xl z-50">
+                            <DropdownMenuContent align="end" className="bg-white border-gray-100 shadow-xl p-1 min-w-[200px]">
                                 {[
-                                    { id: 'newest', label: 'Newest First' },
-                                    { id: 'price-desc', label: 'Price: High to Low' },
+                                    { id: 'newest', label: 'Featured' },
                                     { id: 'price-asc', label: 'Price: Low to High' },
+                                    { id: 'price-desc', label: 'Price: High to Low' },
                                     { id: 'name', label: 'Alphabetical' }
-                                ].map((option) => (
-                                    <DropdownMenuItem
-                                        key={option.id}
-                                        onClick={() => setSortBy(option.id as any)}
-                                        className={`px-6 py-4 text-[10px] font-black uppercase tracking-widest cursor-pointer rounded-none border-b border-brand-matte/5 last:border-0 hover:bg-brand-warm ${sortBy === option.id ? 'bg-brand-warm text-brand' : 'text-brand-matte/60'}`}
-                                    >
-                                        {option.label}
+                                ].map(opt => (
+                                    <DropdownMenuItem key={opt.id} onClick={() => setSortBy(opt.id as any)} className="px-4 py-3 text-[10px] font-black uppercase tracking-[0.2em] cursor-pointer hover:bg-gray-50">
+                                        {opt.label}
                                     </DropdownMenuItem>
                                 ))}
                             </DropdownMenuContent>
                         </DropdownMenu>
                     </div>
                 </div>
+            </div>
 
-                <div className="flex flex-col lg:flex-row gap-16">
-                    <aside className="hidden lg:block lg:w-72 shrink-0">
-                        <div className="sticky top-10">
-                            <FilterSidebar />
+            {/* 3. SPACIOUS PRODUCT GRID */}
+            <main className="max-w-7xl mx-auto px-6 py-32">
+                {activeCategory !== 'All' && (
+                    <div className="mb-12 flex items-center gap-3">
+                        <h3 className="text-xs font-black uppercase tracking-[0.3em] text-gray-400">Filtering by:</h3>
+                        <Badge className="bg-brand text-white border-none rounded-none px-3 py-1 text-[10px] font-bold uppercase tracking-widest flex items-center gap-2">
+                            {activeCategory} {activeSubCategory !== 'All' && ` / ${activeSubCategory}`}
+                            <X className="w-3 h-3 cursor-pointer" onClick={clearAllFilters} />
+                        </Badge>
+                    </div>
+                )}
 
-                            <div className="mt-16 p-8 bg-brand-matte text-white relative overflow-hidden group">
-                                <div className="absolute top-0 right-0 w-20 h-20 bg-brand-gold rounded-full blur-[50px] opacity-20 group-hover:opacity-40 transition-opacity"></div>
-                                <div className="space-y-4 relative z-10">
-                                    <h4 className="text-xl font-black uppercase tracking-tight leading-none">Product <br />Bundles</h4>
-                                    <p className="text-white/40 text-[10px] font-bold uppercase tracking-widest leading-relaxed">Need a specific set of products? Check out our curated bundles.</p>
-                                    <button className="text-[10px] font-black uppercase tracking-widest text-brand-gold border-b border-brand-gold/30 pb-1 hover:text-white hover:border-white transition-all">View Bundles</button>
-                                </div>
-                            </div>
+                {loading ? (
+                    <div className="flex items-center justify-center min-h-[400px]">
+                        <NuvelifeLoader />
+                    </div>
+                ) : products.length > 0 ? (
+                    <>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-12 gap-y-24">
+                            {products.map(product => (
+                                <motion.div
+                                    layout
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    key={product.id}
+                                    className="group"
+                                >
+                                    <ProductCard product={product} />
+                                </motion.div>
+                            ))}
                         </div>
-                    </aside>
 
-                    <main className="flex-grow min-h-[800px] [scrollbar-gutter:stable]">
-                        {loading ? (
-                            <div className="flex items-center justify-center min-h-[400px]">
-                                <NexusLoader />
-                            </div>
-                        ) : processedProducts.length > 0 ? (
-                            <>
-                                <div className={`${viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8' : 'flex flex-col gap-6'}`}>
-                                    {processedProducts.map(product => (
-                                        <div key={product.id} className={`${viewMode === 'grid' ? 'flex justify-start' : 'w-full'}`}>
-                                            {viewMode === 'grid' ? (
-                                                <ProductCard product={product} />
-                                            ) : (
-                                                <div className="bg-white p-6 flex items-center gap-8 group shadow-[0_5px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] transition-luxury border border-transparent hover:border-brand-gold/20 w-full relative overflow-hidden">
-                                                    <div className="absolute top-0 right-0 w-1 h-full bg-brand-gold scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom duration-500"></div>
-                                                    <div className="w-40 h-40 bg-brand-warm p-6 shrink-0 flex items-center justify-center mixing-blend-multiply">
-                                                        <img src={product.images[0]} className="max-w-full max-h-full object-contain grayscale group-hover:grayscale-0 transition-all duration-500" alt={product.name} />
-                                                    </div>
-                                                    <div className="flex-grow space-y-4">
-                                                        <div className="flex items-center gap-3">
-                                                            <Badge variant="outline" className="border-brand-gold/30 text-brand-gold text-[9px] font-black uppercase tracking-widest rounded-none px-2 py-0.5">{product.subCategory}</Badge>
-                                                            <span className="text-brand-matte/20 text-[9px] font-bold uppercase tracking-widest">ID: {product.id}</span>
-                                                        </div>
-
-                                                        <div className="space-y-1">
-                                                            <h3 className="text-2xl font-black text-brand-matte uppercase tracking-tight group-hover:text-brand transition-colors">{product.name}</h3>
-                                                            <p className="text-xs text-brand-matte/50 line-clamp-2 max-w-xl">{product.description}</p>
-                                                        </div>
-
-                                                        <div className="flex items-center gap-6 pt-2">
-                                                            <span className="text-3xl font-black text-brand italic tracking-tighter">
-                                                                Rs.{(product.discountPrice || product.price).toFixed(2)}
-                                                            </span>
-                                                            {product.discountPrice && product.discountPrice < product.price && (
-                                                                <span className="text-xs text-brand-matte/30 line-through font-bold">
-                                                                    Rs.{product.price.toFixed(2)}
-                                                                </span>
-                                                            )}
-                                                        </div>
-                                                    </div>
-                                                    <div className="flex items-center gap-4">
-                                                        <button className="btn-luxury px-10 py-5 text-[10px] font-black uppercase tracking-[0.2em] relative overflow-hidden">
-                                                            Add to Cart
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            )}
-                                        </div>
-                                    ))}
-                                </div>
-
-                                {totalPages > 1 && (
-                                    <div className="mt-16 flex items-center justify-center gap-4 border-t border-brand-matte/5 pt-12">
-                                        <button
-                                            onClick={() => {
-                                                setPage(p => Math.max(1, p - 1));
-                                                window.scrollTo({ top: 0, behavior: 'smooth' });
-                                            }}
-                                            disabled={page === 1}
-                                            className="p-4 border border-brand-matte/10 hover:border-brand-gold hover:text-brand-gold disabled:opacity-30 disabled:hover:border-brand-matte/10 disabled:hover:text-inherit transition-all"
-                                        >
-                                            <ChevronLeft className="w-5 h-5" />
-                                        </button>
-                                        <span className="text-[12px] font-black uppercase tracking-widest text-brand-matte/60">
-                                            Page <span className="text-brand">{page}</span> of {totalPages}
-                                        </span>
-                                        <button
-                                            onClick={() => {
-                                                setPage(p => Math.min(totalPages, p + 1));
-                                                window.scrollTo({ top: 0, behavior: 'smooth' });
-                                            }}
-                                            disabled={page === totalPages}
-                                            className="p-4 border border-brand-matte/10 hover:border-brand-gold hover:text-brand-gold disabled:opacity-30 disabled:hover:border-brand-matte/10 disabled:hover:text-inherit transition-all"
-                                        >
-                                            <ChevronRight className="w-5 h-5" />
-                                        </button>
-                                    </div>
-                                )}
-                            </>
-                        ) : (
-                            <div className="py-32 text-center space-y-8 bg-white/50 border border-brand-matte/5 p-12">
-                                <Search className="w-16 h-16 text-brand-matte/10 mx-auto" />
-                                <div className="space-y-4">
-                                    <p className="text-3xl font-black text-brand-matte/20 uppercase tracking-tighter">No Matches Found</p>
-                                    <p className="text-[11px] font-bold uppercase tracking-widest text-brand-matte/40 max-w-sm mx-auto">The requested product is not found in the current inventory.</p>
-                                    <button
-                                        onClick={clearAllFilters}
-                                        className="text-brand font-black uppercase tracking-widest text-[11px] underline underline-offset-4 hover:text-brand-gold"
-                                    >
-                                        Clear All Filters
-                                    </button>
-                                </div>
+                        {totalPages > 1 && (
+                            <div className="mt-24 pt-12 border-t border-gray-100 flex items-center justify-center gap-8">
+                                <button
+                                    disabled={page === 1}
+                                    onClick={() => setPage(p => p - 1)}
+                                    className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] text-gray-400 hover:text-brand disabled:opacity-30 transition-all"
+                                >
+                                    <ChevronLeft className="w-4 h-4" /> Previous
+                                </button>
+                                <span className="text-[12px] font-black uppercase tracking-widest">
+                                    {page} <span className="opacity-20 mx-2">/</span> {totalPages}
+                                </span>
+                                <button
+                                    disabled={page === totalPages}
+                                    onClick={() => setPage(p => p + 1)}
+                                    className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] text-gray-400 hover:text-brand disabled:opacity-30 transition-all"
+                                >
+                                    Next <ChevronRight className="w-4 h-4" />
+                                </button>
                             </div>
                         )}
-                    </main>
-                </div>
-            </div>
+                    </>
+                ) : (
+                    <div className="text-center py-40">
+                        <Search className="w-12 h-12 text-gray-200 mx-auto mb-6" />
+                        <h3 className="text-2xl font-serif text-gray-800 mb-2">No results found</h3>
+                        <p className="text-gray-400 text-sm mb-8">Try adjusting your filters or search query.</p>
+                        <button onClick={clearAllFilters} className="text-brand text-xs font-black uppercase tracking-widest border-b border-brand pb-1">Reset All</button>
+                    </div>
+                )}
+            </main>
         </div>
     );
 };
 
-export default ProductList; 
+export default ProductList;

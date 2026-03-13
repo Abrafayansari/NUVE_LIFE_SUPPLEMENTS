@@ -1,4 +1,4 @@
-
+﻿
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { CreditCard, Truck, ShieldCheck, CheckCircle, ArrowLeft, Lock, Loader2, Banknote, QrCode, UploadCloud, ChevronRight, PlusCircle, MapPin, X } from 'lucide-react';
@@ -353,8 +353,8 @@ const Checkout: React.FC = () => {
                     <div className="space-y-2">
                       <h4 className="text-[10px] font-black text-brand uppercase tracking-widest">Payment Account</h4>
                       <div className="bg-brand-warm p-4 border border-brand-matte/5">
-                        <p className="text-xs text-brand-matte font-black tracking-widest">IBAN: PK64 NEXUS 0000 9238 4721 00</p>
-                        <p className="text-[10px] text-brand-matte/40 mt-1 uppercase font-black tracking-widest italic">Bank: Nexus Elite Finance</p>
+                        <p className="text-xs text-brand-matte font-black tracking-widest">IBAN: PK64 nuvelife 0000 9238 4721 00</p>
+                        <p className="text-[10px] text-brand-matte/40 mt-1 uppercase font-black tracking-widest italic">Bank: nuvelife Elite Finance</p>
                       </div>
                     </div>
 
@@ -463,3 +463,6 @@ const Checkout: React.FC = () => {
 };
 
 export default Checkout;
+
+
+

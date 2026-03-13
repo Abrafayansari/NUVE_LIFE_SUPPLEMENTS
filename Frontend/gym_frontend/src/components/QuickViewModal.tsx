@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { X, ShoppingCart, Minus, Plus, ExternalLink, Star, ShieldCheck, Zap, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Product } from '../../types';
@@ -317,3 +317,4 @@ const QuickViewModal = ({ product, isOpen, onClose }: QuickViewModalProps) => {
 };
 
 export default QuickViewModal;
+

@@ -1,4 +1,4 @@
-
+﻿
 import React, { useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { Lock, ArrowRight, ShoppingCart, ChevronLeft } from 'lucide-react';
@@ -64,7 +64,7 @@ const ResetPassword: React.FC = () => {
                             <input
                                 required
                                 type="password"
-                                placeholder="••••••••"
+                                placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 className="w-full bg-brand-warm/50 border border-black/5 px-14 py-5 text-brand-matte text-sm font-bold uppercase tracking-widest outline-none focus:border-brand-gold/30 hover:bg-brand-warm transition-all"
@@ -79,7 +79,7 @@ const ResetPassword: React.FC = () => {
                             <input
                                 required
                                 type="password"
-                                placeholder="••••••••"
+                                placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                                 className="w-full bg-brand-warm/50 border border-black/5 px-14 py-5 text-brand-matte text-sm font-bold uppercase tracking-widest outline-none focus:border-brand-gold/30 hover:bg-brand-warm transition-all"
@@ -110,3 +110,5 @@ const ResetPassword: React.FC = () => {
 };
 
 export default ResetPassword;
+
+

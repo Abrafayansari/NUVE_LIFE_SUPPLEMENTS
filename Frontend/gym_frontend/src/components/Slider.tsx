@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { MOCK_PRODUCTS } from '../mockData.ts';
@@ -101,3 +101,5 @@ const Slider: React.FC<SliderProps> = ({ products, loading }) => {
 };
 
 export default Slider;
+
+

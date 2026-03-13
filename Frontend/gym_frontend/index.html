@@ -1,27 +1,35 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NEXUS | Elite Supplement Protocols</title>
+  <title>NUVELIFE | Elite Supplement Protocols</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
     rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
   <script>
     tailwind.config = {
       theme: {
         extend: {
           fontFamily: {
             sans: ['Inter', 'sans-serif'],
+            'bebas': ['Bebas Neue', 'sans-serif'],
+            'script': ['Playfair Display', 'cursive'],
           },
           colors: {
             brand: {
-              DEFAULT: '#7B0F17',
-              gold: '#C9A24D',
-              matte: '#0E0E0E',
-              warm: '#FAFAFA',
-            }
+              DEFAULT: '#CC5500',   // Strong Burnt Orange (Primary Brand Color)
+              gold: '#E67E22',      // Soft Supporting Orange (NOT actual gold)
+              matte: '#1A1A1A',     // Deep Charcoal Background
+              warm: '#F5F5F5'       // Soft White for text
+            },
+            'brand-orange': '#CC5500',  // Brand Orange
+            'deep-black': '#0A0A0A',    // Deep Black
+            'vibrant-orange': '#FF6B35',
+            'golden-yellow': '#FFD700',
+            'charcoal': '#1A1A1A',
           }
         }
       }
@@ -116,6 +124,24 @@
 
     .custom-scrollbar::-webkit-scrollbar-thumb:hover {
       background: #7B0F17;
+    }
+
+    .text-distressed {
+      text-shadow:
+        1px 1px 0px #000,
+        -1px -1px 0px #000,
+        1px -1px 0px #000,
+        -1px 1px 0px #000,
+        2px 2px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Clip Circle Animation for Product Card Hover */
+    .clip-circle-initial {
+      clip-path: circle(0% at 50% 100%);
+    }
+
+    .clip-circle-hover {
+      clip-path: circle(75% at 50% 100%);
     }
   </style>
   <script type="importmap">

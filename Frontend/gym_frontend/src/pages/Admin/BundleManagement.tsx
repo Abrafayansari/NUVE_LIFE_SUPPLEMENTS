@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Plus, Search, Edit2, Trash2, Filter, ArrowLeft, Package } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import AddBundleModal from './AddBundleModal';
 import { useAuth } from '../../contexts/AuthContext';
 import { toast } from 'sonner';
-import NexusLoader from '../../components/NexusLoader';
+import NuvelifeLoader from '../../components/NuvelifeLoader';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -57,7 +57,7 @@ const BundleManagement: React.FC = () => {
     if (loading && bundles.length === 0) {
         return (
             <div className="min-h-screen bg-brand-warm flex items-center justify-center">
-                <NexusLoader />
+                <NuvelifeLoader />
             </div>
         );
     }
@@ -220,3 +220,6 @@ const BundleManagement: React.FC = () => {
 };
 
 export default BundleManagement;
+
+
+

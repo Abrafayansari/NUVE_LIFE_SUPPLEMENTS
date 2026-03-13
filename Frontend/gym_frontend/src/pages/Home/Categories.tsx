@@ -1,4 +1,4 @@
-import { Category, getCategories, fetchProducts } from '@/src/data/Product';
+﻿import { Category, getCategories, fetchProducts } from '@/src/data/Product';
 import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Product } from '@/types';
@@ -177,3 +177,5 @@ const Categories = () => {
 };
 
 export default Categories;
+
+

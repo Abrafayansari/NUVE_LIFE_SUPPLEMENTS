@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ShoppingBag, ArrowRight } from 'lucide-react';
 import { useCart } from '../contexts/CartContext.tsx';
 import ProductCard from '../components/ProductCard.tsx';
-import NexusLoader from '../components/NexusLoader.tsx';
+import NuvelifeLoader from '../components/NuvelifeLoader.tsx';
 
 const Cart: React.FC = () => {
   const { items, showCart } = useCart();
@@ -25,7 +25,7 @@ const Cart: React.FC = () => {
   if (loading) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 bg-brand-warm min-h-screen flex items-center justify-center">
-        <NexusLoader />
+        <NuvelifeLoader />
       </div>
     );
   }
@@ -60,7 +60,7 @@ const Cart: React.FC = () => {
         </button>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12">
         {items.map(item => (
           <ProductCard
             key={item.id}
@@ -75,3 +75,5 @@ const Cart: React.FC = () => {
 };
 
 export default Cart;
+
+

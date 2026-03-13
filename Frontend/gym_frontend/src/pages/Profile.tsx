@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import { User, Package, LogOut, ChevronRight, Calendar, Shield, Loader2 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import api from '../lib/api';
 import { toast } from 'sonner';
-import NexusLoader from '../components/NexusLoader';
+import NuvelifeLoader from '../components/NuvelifeLoader';
 
 const Profile: React.FC = () => {
   const { user, logout, token, updateProfile } = useAuth();
@@ -150,7 +150,7 @@ const Profile: React.FC = () => {
               <div className="space-y-6">
                 {loadingOrders ? (
                   <div className="p-20 text-center flex justify-center">
-                    <NexusLoader />
+                    <NuvelifeLoader />
                   </div>
                 ) : orders.length === 0 ? (
                   <div className="p-20 text-center bg-white border border-black/5">
@@ -227,3 +227,5 @@ const Profile: React.FC = () => {
 };
 
 export default Profile;
+
+

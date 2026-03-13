@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Link } from 'react-router-dom';
 import {
   Users, ShoppingBag, DollarSign, TrendingUp,
@@ -8,11 +8,11 @@ import {
 import { MOCK_ORDERS, MOCK_PRODUCTS } from '../../mockData.ts';
 import axios from 'axios';
 import { useAuth } from '../../contexts/AuthContext';
-import NexusLoader from '../../components/NexusLoader';
+import NuvelifeLoader from '../../components/NuvelifeLoader';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-import logo from '../../assets/nexus_logo.jpg';
+import logo from '../../assets/nuvelife_logo.jpg';
 
 interface Notification {
   id: string;
@@ -151,9 +151,9 @@ const AdminDashboard: React.FC = () => {
     <div className="min-h-screen bg-brand-warm text-brand-matte flex font-sans">
       <aside className="w-72 bg-white border-r border-brand-matte/5 hidden xl:flex flex-col p-8 space-y-12 backdrop-blur-3xl sticky top-0 h-screen shadow-sm">
         <Link to="/" className="flex items-center gap-4 group">
-          <img src={logo} alt="Nexus Logo" className="w-12 h-12 object-contain" />
+          <img src={logo} alt="\Nuvelife Logo" className="w-12 h-12 object-contain" />
           <div className="flex flex-col">
-            <span className="text-xl font-black text-brand-matte tracking-tighter uppercase leading-none">NEXUS</span>
+            <span className="text-xl font-black text-brand-matte tracking-tighter uppercase leading-none">Nuvelife</span>
             <span className="text-[10px] font-bold text-brand-matte/20 uppercase tracking-[0.4em]">Management</span>
           </div>
         </Link>
@@ -295,7 +295,7 @@ const AdminDashboard: React.FC = () => {
 
         {loading ? (
           <div className="flex-grow flex items-center justify-center min-h-[500px]">
-            <NexusLoader />
+            <NuvelifeLoader />
           </div>
         ) : (
           <>
@@ -406,3 +406,5 @@ const AdminDashboard: React.FC = () => {
 };
 
 export default AdminDashboard;
+
+

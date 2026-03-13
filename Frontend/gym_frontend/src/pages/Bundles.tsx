@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { ShoppingCart, ArrowRight, Package, ShoppingBag, Loader2, CreditCard } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
 import { toast } from 'sonner';
 import { Product, Bundle } from '@/types';
-import NexusLoader from '../components/NexusLoader';
+import NuvelifeLoader from '../components/NuvelifeLoader';
 import { useNavigate } from 'react-router-dom';
 import api from '../lib/api';
 
@@ -54,7 +54,7 @@ const Bundles: React.FC = () => {
 
     if (loading) return (
         <div className="min-h-screen bg-brand-warm flex items-center justify-center">
-            <NexusLoader />
+            <NuvelifeLoader />
         </div>
     );
 
@@ -205,3 +205,6 @@ const Bundles: React.FC = () => {
 };
 
 export default Bundles;
+
+
+

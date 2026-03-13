@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import { X, Upload, FileText, Package, AlertCircle, CheckCircle2, Loader2, Image as ImageIcon } from 'lucide-react';
 import axios from 'axios';
 import { useAuth } from '../../contexts/AuthContext';
@@ -273,7 +273,7 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClose, onSu
                                         required
                                         value={formData.brand}
                                         onChange={e => setFormData({ ...formData, brand: e.target.value })}
-                                        placeholder="E.G. NEXUS"
+                                        placeholder="E.G. nuvelife"
                                         className="w-full bg-white border border-brand-matte/10 p-4 rounded-none text-sm font-black text-brand-matte focus:border-brand outline-none transition uppercase shadow-sm"
                                     />
                                 </div>
@@ -519,3 +519,6 @@ const AddProductModal: React.FC<AddProductModalProps> = ({ isOpen, onClose, onSu
 };
 
 export default AddProductModal;
+
+
+

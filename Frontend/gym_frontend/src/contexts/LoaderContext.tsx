@@ -1,6 +1,6 @@
-
+﻿
 import React, { createContext, useContext, useState, useCallback } from 'react';
-import NexusLoader from '../components/NexusLoader';
+import NuvelifeLoader from '../components/NuvelifeLoader';
 
 interface LoaderContextType {
     showLoader: () => void;
@@ -20,7 +20,7 @@ export const LoaderProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
     return (
         <LoaderContext.Provider value={{ showLoader, hideLoader, isLoading }}>
-            {isLoading && <NexusLoader />}
+            {isLoading && <NuvelifeLoader />}
             {children}
         </LoaderContext.Provider>
     );
@@ -33,3 +33,6 @@ export const useLoader = () => {
     }
     return context;
 };
+
+
+

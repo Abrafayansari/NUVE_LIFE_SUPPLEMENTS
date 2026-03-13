@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import { X, Upload, Package, AlertCircle, CheckCircle2, Loader2, Image as ImageIcon, Search } from 'lucide-react';
 import axios from 'axios';
 import { useAuth } from '../../contexts/AuthContext';
@@ -328,3 +328,5 @@ const AddBundleModal: React.FC<AddBundleModalProps> = ({ isOpen, onClose, onSucc
 };
 
 export default AddBundleModal;
+
+

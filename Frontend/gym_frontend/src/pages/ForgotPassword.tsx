@@ -1,4 +1,4 @@
-
+﻿
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Mail, ArrowRight, ShoppingCart, ChevronLeft } from 'lucide-react';
@@ -124,3 +124,5 @@ const ForgotPassword: React.FC = () => {
 };
 
 export default ForgotPassword;
+
+

@@ -1,8 +1,8 @@
-
+﻿
 import React from 'react';
 import { motion } from 'framer-motion';
 
-const NexusLoader: React.FC = () => {
+const NuvelifeLoader: React.FC = () => {
     return (
         <div className="w-full min-h-[300px] flex flex-col items-center justify-center p-8">
             <div className="relative">
@@ -55,4 +55,7 @@ const NexusLoader: React.FC = () => {
     );
 };
 
-export default NexusLoader;
+export default NuvelifeLoader;
+
+
+

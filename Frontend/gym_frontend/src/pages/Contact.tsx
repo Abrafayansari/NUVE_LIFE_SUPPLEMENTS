@@ -1,4 +1,4 @@
-
+﻿
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Send, MessageSquare, Clock, Loader2 } from 'lucide-react';
@@ -74,7 +74,7 @@ const Contact: React.FC = () => {
                   </div>
                   <div>
                     <h4 className="text-[10px] font-black uppercase tracking-widest text-brand-matte/40 mb-2">Email</h4>
-                    <p className="text-sm font-black uppercase tracking-tight">support@nexus.com</p>
+                    <p className="text-sm font-black uppercase tracking-tight">support@nuvelife.com</p>
                   </div>
                 </div>
 
@@ -94,7 +94,7 @@ const Contact: React.FC = () => {
                   </div>
                   <div>
                     <h4 className="text-[10px] font-black uppercase tracking-widest text-brand-matte/40 mb-2">Service Hours</h4>
-                    <p className="text-sm font-black uppercase tracking-tight italic">Response team active<br />Mon — Sun: 24 Hours</p>
+                    <p className="text-sm font-black uppercase tracking-tight italic">Response team active<br />Mon â€” Sun: 24 Hours</p>
                   </div>
                 </div>
               </div>
@@ -200,3 +200,6 @@ const Contact: React.FC = () => {
 };
 
 export default Contact;
+
+
+

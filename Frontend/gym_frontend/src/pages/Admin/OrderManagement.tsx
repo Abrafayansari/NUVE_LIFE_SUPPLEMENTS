@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Search, Eye, ArrowLeft, Download, RefreshCw, Package, Truck, CheckCircle, XCircle, Clock, Banknote, QrCode } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../../contexts/AuthContext.tsx';
 import { toast } from 'sonner';
-import NexusLoader from '../../components/NexusLoader';
+import NuvelifeLoader from '../../components/NuvelifeLoader';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -106,7 +106,7 @@ const OrderManagement: React.FC = () => {
   if (loading && orders.length === 0) {
     return (
       <div className="min-h-screen bg-brand-warm flex items-center justify-center">
-        <NexusLoader />
+        <NuvelifeLoader />
       </div>
     );
   }
@@ -221,7 +221,7 @@ const OrderManagement: React.FC = () => {
                             </div>
                             <div className="flex items-center gap-2 px-1 text-[8px] font-black text-brand-matte/30 uppercase tracking-widest">
                               {order.paymentMethod === 'COD' ? <Banknote className="w-3 h-3" /> : <QrCode className="w-3 h-3 text-brand-gold" />}
-                              {order.paymentMethod} • {order.paymentStatus}
+                              {order.paymentMethod} â€¢ {order.paymentStatus}
                             </div>
                           </div>
                         </td>
@@ -335,3 +335,5 @@ const OrderManagement: React.FC = () => {
 };
 
 export default OrderManagement;
+
+

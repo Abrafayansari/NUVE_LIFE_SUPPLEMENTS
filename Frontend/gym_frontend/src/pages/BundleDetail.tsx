@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { ShoppingCart, ShoppingBag, CreditCard, ArrowLeft, Loader2, Package, CheckCircle2, ChevronRight, Heart, Star, ShieldCheck, Zap, Target } from 'lucide-react';
 import { useCart } from '../contexts/CartContext';
@@ -8,7 +8,7 @@ import api from '../lib/api';
 import { Product, Bundle } from '@/types';
 import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
-import NexusLoader from '../components/NexusLoader';
+import NuvelifeLoader from '../components/NuvelifeLoader';
 
 const BundleDetail: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -105,7 +105,7 @@ const BundleDetail: React.FC = () => {
         }
     };
 
-    if (loading) return <NexusLoader />;
+    if (loading) return <NuvelifeLoader />;
     if (!bundle) return (
         <div className="min-h-screen pt-40 text-center">
             <h1 className="text-4xl font-black text-brand-matte uppercase">Bundle Not Found</h1>
@@ -124,7 +124,7 @@ const BundleDetail: React.FC = () => {
             {/* Breadcrumbs */}
             <div className="container mx-auto px-6 mb-12">
                 <nav className="flex items-center gap-4 text-[10px] font-black uppercase tracking-[0.3em]">
-                    <Link to="/" className="text-brand-matte/30 hover:text-brand transition-colors">Nexus</Link>
+                    <Link to="/" className="text-brand-matte/30 hover:text-brand transition-colors">Nuvelife</Link>
                     <ChevronRight className="w-3 h-3 text-brand-matte/10" />
                     <Link to="/bundles" className="text-brand-matte/30 hover:text-brand transition-colors">Bundles</Link>
                     <ChevronRight className="w-3 h-3 text-brand-matte/10" />
@@ -304,3 +304,6 @@ const BundleDetail: React.FC = () => {
 };
 
 export default BundleDetail;
+
+
+

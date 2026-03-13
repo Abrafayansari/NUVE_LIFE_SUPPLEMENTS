@@ -1,4 +1,4 @@
-// services/productService.ts
+﻿// services/productService.ts
 import axios from "axios";
 import { Product } from "@/types";
 
@@ -122,3 +122,4 @@ export const getCategories = async (): Promise<Category[]> => {
   const res = await axios.get(`${API_URL}/getcategories`);
   return res.data.categories;
 };
+

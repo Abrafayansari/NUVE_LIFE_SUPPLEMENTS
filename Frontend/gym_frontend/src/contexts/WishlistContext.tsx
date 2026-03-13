@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+﻿import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { WishlistItem } from '@/types';
 import api from '../lib/api';
 import { toast } from 'sonner';
@@ -86,3 +86,5 @@ export const useWishlist = () => {
     if (!context) throw new Error('useWishlist must be used within WishlistProvider');
     return context;
 };
+
+

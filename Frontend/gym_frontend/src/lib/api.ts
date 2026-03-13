@@ -1,4 +1,4 @@
-import axios from 'axios';
+﻿import axios from 'axios';
 import { toast } from 'sonner';
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -69,3 +69,5 @@ api.interceptors.response.use(
 );
 
 export default api;
+
+
