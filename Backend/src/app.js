@@ -10,7 +10,7 @@ const app = express();
 app.use(cors({
   origin: [
     'http://localhost:3000',
-    'https://supplement-store-clients-website.vercel.app'
+    'https://nuve-life-supplements.vercel.app/#/'
   ],
   credentials: true
 }));
