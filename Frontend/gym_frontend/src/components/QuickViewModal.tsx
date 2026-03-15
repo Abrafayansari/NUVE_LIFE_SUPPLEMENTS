@@ -1,7 +1,7 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { X, ShoppingCart, Minus, Plus, ExternalLink, Star, ShieldCheck, Zap, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { Product } from '../../types';
+import { Product } from '@/types';
 import { useCart } from '../contexts/CartContext.tsx';
 import { toast } from 'sonner';
 import {
@@ -9,9 +9,8 @@ import {
   DialogContent,
   DialogTitle,
 } from './ui/dialog.tsx';
-import { Button } from './ui/button.tsx';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 interface QuickViewModalProps {
   product: Product | null;
@@ -69,17 +68,11 @@ const QuickViewModal = ({ product, isOpen, onClose }: QuickViewModalProps) => {
     navigate(`/product/${product.id}`);
   };
 
-  // Calculate discount percentage if original price exists (mocking original price logic if not present in type)
-  // Assuming 'originalPrice' might be added later or we calculate some dummy discount for 'premium' feel if needed.
-  // For now, we will just start with 0 unless we want to hardcode a visual effect.
-  // The Product type doesn't have originalPrice, so we'll omit it or simulate it for demo purposes if desired.
-  // We'll skip exact discount calc based on undefined props to avoid TS errors.
-
   const mainImage = product.images?.[0] || 'https://via.placeholder.com/400';
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="w-[95vw] max-w-5xl max-h-[90vh] overflow-y-auto p-0 bg-transparent border-none shadow-none sm:rounded-[32px]">
+      <DialogContent className="w-[95vw] max-w-4xl max-h-[90vh] overflow-y-auto p-0 bg-transparent border-none shadow-none rounded-none rounded-sm">
         <VisuallyHidden>
           <DialogTitle>{product.name} - Quick View</DialogTitle>
         </VisuallyHidden>
@@ -88,20 +81,20 @@ const QuickViewModal = ({ product, isOpen, onClose }: QuickViewModalProps) => {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.95 }}
-          className="relative w-full bg-brand-warm border border-brand-matte/5 shadow-2xl sm:rounded-[32px] overflow-hidden grid lg:grid-cols-2"
+          className="relative w-full bg-[#F5F0E8] border-[4px] border-black shadow-[8px_8px_0_#000] overflow-hidden grid lg:grid-cols-2 mt-4 ml-4 lg:-ml-4 z-50"
         >
           {/* Close Button */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 z-50 w-10 h-10 rounded-full bg-black/20 backdrop-blur-md text-white/70 hover:text-white hover:bg-black/40 flex items-center justify-center transition-all border border-white/5"
+            className="absolute top-4 right-4 z-50 w-10 h-10 bg-[#FF6B00] text-white border-[2px] border-black shadow-[2px_2px_0_#000] flex items-center justify-center hover:bg-black transition-colors"
           >
-            <X className="w-5 h-5" />
+            <X className="w-5 h-5" strokeWidth={3} />
           </button>
 
           {/* Left Side: Image */}
-          <div className="relative h-[300px] sm:h-[400px] lg:h-[600px] bg-white flex items-center justify-center p-8 overflow-hidden group">
-            {/* Background Effects */}
-            <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_0%,rgba(201,162,77,0.05),transparent_70%)]"></div>
+          <div className="relative h-[300px] sm:h-[400px] lg:h-full bg-white flex items-center justify-center p-8 overflow-hidden group border-b-[4px] lg:border-b-0 lg:border-r-[4px] border-black">
+            {/* Background Texture */}
+             <div className="absolute inset-0 opacity-[0.05] pointer-events-none" style={{ backgroundImage: 'repeating-linear-gradient(45deg, #000 0, #000 1px, transparent 0, transparent 50%)', backgroundSize: '10px 10px' }}></div>
 
             <motion.img
               initial={{ y: 20, opacity: 0 }}
@@ -109,18 +102,18 @@ const QuickViewModal = ({ product, isOpen, onClose }: QuickViewModalProps) => {
               transition={{ delay: 0.2 }}
               src={mainImage}
               alt={product.name}
-              className="relative z-10 w-full h-full object-contain drop-shadow-2xl group-hover:scale-105 transition-transform duration-700 ease-out"
+              className="relative z-10 w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
             />
 
             {/* Badges */}
-            <div className="absolute top-6 left-6 flex flex-col gap-2 z-20">
+            <div className="absolute top-4 left-4 flex flex-col gap-2 z-20">
               {product.stock < 10 && product.stock > 0 && (
-                <span className="px-3 py-1 bg-red-500/20 text-red-500 border border-red-500/20 rounded-full text-[10px] font-bold uppercase tracking-wider backdrop-blur-sm">
+                <span className="px-3 py-1 bg-[#FF6B00] text-white border-[2px] border-black shadow-[2px_2px_0_#000] text-[10px] font-syne font-black uppercase tracking-widest">
                   Low Stock
                 </span>
               )}
               {product.brand && (
-                <span className="px-3 py-1 bg-brand-gold/10 text-brand-gold border border-brand-gold/20 rounded-full text-[10px] font-bold uppercase tracking-wider backdrop-blur-sm">
+                <span className="px-3 py-1 bg-[#179149] text-white border-[2px] border-black shadow-[2px_2px_0_#000] text-[10px] font-syne font-black uppercase tracking-widest">
                   {product.brand}
                 </span>
               )}
@@ -128,90 +121,81 @@ const QuickViewModal = ({ product, isOpen, onClose }: QuickViewModalProps) => {
           </div>
 
           {/* Right Side: Details */}
-          <div className="p-8 lg:p-12 flex flex-col relative bg-brand-warm border-l border-brand-matte/5">
-            <div className="absolute top-0 right-0 w-full h-32 bg-gradient-to-b from-brand-warm/80 to-transparent pointer-events-none lg:hidden"></div>
+          <div className="p-6 md:p-8 flex flex-col relative bg-[#F5F0E8]">
 
             <div className="mb-auto space-y-6">
               <div>
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  className="flex items-center gap-2 mb-3"
+                  className="flex items-center gap-3 mb-3 bg-white border-[2px] border-black p-1 shadow-[2px_2px_0_#000] w-fit"
                 >
-                  <div className="flex text-brand-gold">
+                  <div className="flex bg-[#179149] p-1 border-[2px] border-black">
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
-                        className={`w-4 h-4 ${i < Math.floor(product.rating || 5) ? 'fill-current' : 'text-brand-matte/10'}`}
+                        className={`w-3 h-3 ${i < Math.floor(product.rating || 5) ? 'fill-[#FF6B00] text-[#FF6B00]' : 'text-white/20'}`}
+                        strokeWidth={2}
                       />
                     ))}
                   </div>
-                  <span className="text-xs font-black uppercase tracking-widest text-brand-matte/30 italic">({product.reviewCount || 0} User Ratings)</span>
+                  <span className="text-[10px] pr-2 font-syne font-black uppercase tracking-widest text-black">({product.reviewCount || 0} REVIEWS)</span>
                 </motion.div>
 
                 <motion.h2
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 }}
-                  className="text-2xl lg:text-4xl font-black text-brand-matte uppercase tracking-tight leading-none mb-1 italic"
+                  className="text-2xl md:text-3xl font-syne font-black text-black uppercase tracking-tighter leading-none mb-2"
                 >
                   {product.name}
                 </motion.h2>
-                <p className="text-[10px] font-bold text-brand-gold uppercase tracking-[0.3em] mb-4">
-                  {product.category.split(/[- ]/).map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ')}
+
+                <p className="text-xs font-syne font-black text-[#179149] uppercase tracking-widest mb-4 inline-block border-b-[2px] border-black pb-0.5">
+                  {product.category}
                 </p>
 
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.2 }}
-                  className="flex items-center gap-4 flex-wrap"
+                  className="flex items-center gap-3 flex-wrap p-4 bg-white border-[3px] border-black shadow-[4px_4px_0_#000]"
                 >
-                  <span className="text-3xl font-black text-brand-matte italic tracking-tighter">
+                  <span className="text-2xl font-syne font-black text-black tracking-tighter">
                     Rs. {(selectedVariant ? (selectedVariant.discountPrice || selectedVariant.price) : (product.discountPrice || product.price)).toLocaleString()}
                   </span>
                   {(selectedVariant?.discountPrice || product.discountPrice) && (
-                    <span className="text-lg text-brand-matte/20 line-through font-bold">
+                    <span className="text-sm text-black/50 line-through font-bold">
                       Rs. {(selectedVariant ? selectedVariant.price : product.price).toLocaleString()}
                     </span>
                   )}
                   {selectedVariant && (
-                    <span className="text-[10px] font-bold text-brand-gold uppercase tracking-[0.4em]">
-                      / {selectedVariant.size} {selectedVariant.flavor && `- ${selectedVariant.flavor}`}
+                    <span className="text-xs font-syne font-black bg-[#FF6B00] text-white px-2 py-1 border-[2px] border-black ml-auto">
+                       {selectedVariant.size} {selectedVariant.flavor && ` / ${selectedVariant.flavor}`}
                     </span>
                   )}
                 </motion.div>
               </div>
-
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.3 }}
-                className="text-brand-matte/60 text-sm font-medium leading-relaxed border-l-4 border-brand-gold pl-6"
-              >
-                {product.description || "Experience peak performance with our premium supplement range."}
-              </motion.p>
 
               {/* Variant Selection */}
               {product.variants && product.variants.length > 0 && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.35 }}
+                  transition={{ delay: 0.3 }}
                   className="space-y-4"
                 >
                   {/* Primary Attribute */}
-                  <div className="space-y-3">
-                    <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-brand-matte/30">Select {product.variantType || 'Size'}</h4>
-                    <div className="flex flex-wrap gap-3">
+                  <div className="space-y-2">
+                    <h4 className="text-xs font-syne font-black uppercase tracking-widest text-[#FF6B00]">Select {product.variantType || 'Size'}</h4>
+                    <div className="flex flex-wrap gap-2">
                       {uniqueSizes.map((sz: any) => (
                         <button
                           key={sz}
                           onClick={() => setSelectedSize(sz)}
-                          className={`px-6 py-3 text-[10px] font-black uppercase tracking-widest transition-all rounded-none
-                            ${selectedSize === sz
-                              ? 'bg-brand text-white shadow-lg shadow-brand/20'
-                              : 'bg-white text-brand-matte/60 border border-brand-matte/10 hover:border-brand-gold'
+                          className={`px-4 py-2 text-xs font-syne font-black uppercase tracking-widest transition-all ${selectedSize === sz
+                              ? 'bg-[#179149] text-white border-[3px] border-black shadow-[4px_4px_0_#000] -translate-y-1 -translate-x-1'
+                              : 'bg-white text-black border-[3px] border-black hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[4px_4px_0_#000]'
                             }`}
                         >
                           {sz}
@@ -222,17 +206,16 @@ const QuickViewModal = ({ product, isOpen, onClose }: QuickViewModalProps) => {
 
                   {/* Secondary Attribute (Flavor) */}
                   {availableFlavors.length > 0 && (
-                    <div className="space-y-3 animate-in fade-in duration-500">
-                      <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-brand-matte/30">Select Flavor</h4>
-                      <div className="flex flex-wrap gap-3">
+                    <div className="space-y-2 animate-in fade-in duration-300">
+                      <h4 className="text-xs font-syne font-black uppercase tracking-widest text-[#FF6B00]">Select Flavor</h4>
+                      <div className="flex flex-wrap gap-2">
                         {availableFlavors.map((fl: any) => (
                           <button
                             key={fl}
                             onClick={() => setSelectedFlavor(fl)}
-                            className={`px-6 py-3 text-[10px] font-black uppercase tracking-widest transition-all rounded-none
-                              ${selectedFlavor === fl
-                                ? 'bg-brand-gold text-white shadow-lg shadow-brand-gold/20'
-                                : 'bg-white text-brand-matte/60 border border-brand-matte/10 hover:border-brand-gold'
+                            className={`px-4 py-2 text-xs font-syne font-black uppercase tracking-widest transition-all ${selectedFlavor === fl
+                                ? 'bg-[#FF6B00] text-white border-[3px] border-black shadow-[4px_4px_0_#000] -translate-y-1 -translate-x-1'
+                                : 'bg-white text-black border-[3px] border-black hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[4px_4px_0_#000]'
                               }`}
                           >
                             {fl}
@@ -244,69 +227,49 @@ const QuickViewModal = ({ product, isOpen, onClose }: QuickViewModalProps) => {
                 </motion.div>
               )}
 
-              {/* Features Grid */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-                className="grid grid-cols-2 gap-4"
-              >
-                <div className="p-4 rounded-none bg-white border border-brand-matte/5 flex items-center gap-4">
-                  <Zap className="w-5 h-5 text-brand-gold" />
-                  <div>
-                    <div className="text-[9px] text-brand-matte/40 uppercase font-black tracking-widest">Quality</div>
-                    <div className="text-[11px] font-black text-brand-matte uppercase">Top Quality</div>
+              {/* Quantity */}
+               <div className="flex items-center gap-3">
+                  <span className="text-xs font-syne font-black uppercase tracking-widest text-[#FF6B00]">QTY</span>
+                  <div className="flex items-center bg-white border-[3px] border-black w-fit shadow-[2px_2px_0_#000]">
+                    <button
+                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                      className="p-2 hover:bg-[#FF6B00] hover:text-white transition-colors"
+                    >
+                      <Minus className="w-4 h-4" strokeWidth={3} />
+                    </button>
+                    <span className="w-10 text-center text-black font-syne font-black text-lg">{quantity}</span>
+                    <button
+                      onClick={() => setQuantity(Math.min(selectedVariant ? selectedVariant.stock : product.stock, quantity + 1))}
+                      className="p-2 hover:bg-[#179149] hover:text-white transition-colors"
+                    >
+                      <Plus className="w-4 h-4" strokeWidth={3} />
+                    </button>
                   </div>
                 </div>
-                <div className="p-4 rounded-none bg-white border border-brand-matte/5 flex items-center gap-4">
-                  <ShieldCheck className="w-5 h-5 text-brand-gold" />
-                  <div>
-                    <div className="text-[9px] text-brand-matte/40 uppercase font-black tracking-widest">Original</div>
-                    <div className="text-[11px] font-black text-brand-matte uppercase">Certified</div>
-                  </div>
-                </div>
-              </motion.div>
+
             </div>
 
             {/* Actions */}
-            <div className="mt-10 space-y-6">
-              <div className="flex items-center gap-6">
-                <div className="flex items-center bg-white border border-brand-matte/10">
-                  <button
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="p-4 hover:bg-brand-gold/10 transition-colors text-brand-matte/40 hover:text-brand-gold"
-                  >
-                    <Minus className="w-4 h-4" />
-                  </button>
-                  <span className="w-10 text-center text-brand-matte font-black text-lg italic">{quantity}</span>
-                  <button
-                    onClick={() => setQuantity(Math.min(selectedVariant ? selectedVariant.stock : product.stock, quantity + 1))}
-                    className="p-4 hover:bg-brand-gold/10 transition-colors text-brand-matte/40 hover:text-brand-gold"
-                  >
-                    <Plus className="w-4 h-4" />
-                  </button>
-                </div>
-
-                <button
+            <div className="mt-8 space-y-4">
+               <button
                   onClick={handleAddToCart}
                   disabled={product.stock === 0 || loading}
-                  className="flex-1 bg-brand text-white font-black uppercase tracking-[0.3em] text-[10px] py-5 transition-luxury hover:bg-brand-gold shadow-lg hover:shadow-brand/20 flex items-center justify-center gap-3"
+                  className="w-full bg-[#179149] text-white font-syne font-black uppercase tracking-widest text-sm py-4 border-[3px] border-black shadow-[4px_4px_0_#000] hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[6px_6px_0_#000] active:translate-y-0 active:translate-x-0 active:shadow-none transition-all flex items-center justify-center gap-3 disabled:opacity-50"
                 >
                   {loading ? (
-                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <Loader2 className="w-5 h-5 animate-spin" />
                   ) : (
                     <>
-                      {product.stock === 0 ? 'Out of Stock' : 'Add to Cart'} <ShoppingCart className="w-4 h-4" />
+                      {product.stock === 0 ? 'OUT OF STOCK' : 'ADD TO CART'} <ShoppingCart className="w-5 h-5" strokeWidth={2.5}/>
                     </>
                   )}
                 </button>
-              </div>
 
               <button
                 onClick={navigateToDetails}
-                className="w-full py-4 text-[10px] font-black text-brand-matte/30 hover:text-brand-gold uppercase tracking-[0.3em] transition-luxury flex items-center justify-center gap-3 border border-brand-matte/5 hover:border-brand-gold/20"
+                className="w-full py-4 bg-white text-black font-syne font-black uppercase tracking-widest text-sm border-[3px] border-black shadow-[4px_4px_0_#000] hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[6px_6px_0_#000] hover:bg-[#FF6B00] hover:text-white active:translate-y-0 active:translate-x-0 active:shadow-none transition-all flex items-center justify-center gap-2"
               >
-                View Full Details <ExternalLink className="w-3 h-3 transition-transform" />
+                VIEW FULL BIO <ExternalLink className="w-4 h-4" strokeWidth={2.5} />
               </button>
             </div>
           </div>
@@ -317,4 +280,3 @@ const QuickViewModal = ({ product, isOpen, onClose }: QuickViewModalProps) => {
 };
 
 export default QuickViewModal;
-

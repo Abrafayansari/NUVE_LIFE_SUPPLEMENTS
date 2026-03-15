@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -6,9 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NUVELIFE | Elite Supplement Protocols</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Syne:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+
   <script>
     tailwind.config = {
       theme: {
@@ -20,128 +23,113 @@
           },
           colors: {
             brand: {
-              DEFAULT: '#CC5500',   // Strong Burnt Orange (Primary Brand Color)
-              gold: '#E67E22',      // Soft Supporting Orange (NOT actual gold)
+              DEFAULT: '#FF6B00',   // Strong Burnt Orange (Primary Brand Color)
+              green: '#179149',      // Soft Supporting Orange (NOT actual gold)
               matte: '#1A1A1A',     // Deep Charcoal Background
               warm: '#F5F5F5'       // Soft White for text
             },
             'brand-orange': '#CC5500',  // Brand Orange
             'deep-black': '#0A0A0A',    // Deep Black
-            'vibrant-orange': '#FF6B35',
+            'vibrant-orange': '#FF6B00',
             'golden-yellow': '#FFD700',
             'charcoal': '#1A1A1A',
-          }
+          },
+          boxShadow: {
+            'brutal': '6px 6px 0px #000',
+            'brutal-hover': '8px 8px 0px #000',
+            'brutal-active': '3px 3px 0px #000',
+          },
+
         }
       }
     }
+
+    // tailwind.config = {
+    //   theme: {
+    //     extend: {
+    //       fontFamily: {
+    //         sans: ['"DM Sans"', 'sans-serif'],
+    //         syne: ['"Syne"', 'sans-serif'],
+    //       },
+    //       colors: {
+    //         brand: {
+    //           primary: '#FF6B00',
+    //           secondary: '#179149',
+    //           black: '#000',
+    //           white: '#FFF',
+    //           'off-white': '#F5F0E8'
+    //         }
+    //       },
+    //       boxShadow: {
+    //         'brutal': '6px 6px 0px #000',
+    //         'brutal-hover': '8px 8px 0px #000',
+    //         'brutal-active': '3px 3px 0px #000',
+    //       },
+    //     }
+    //   }
+    // }
   </script>
   <style>
+    :root {
+      --color-primary: #FF6B00;
+      --color-secondary: #179149;
+      --color-black: #000000;
+      --color-white: #FFFFFF;
+      --color-off-white: #F5F0E8;
+    }
+
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       -webkit-font-smoothing: antialiased;
-      background-color: #FAFAFA;
-      color: #0E0E0E;
+      background-color: var(--color-off-white);
+      color: var(--color-black);
     }
 
     ::-webkit-scrollbar {
-      width: 4px;
+      width: 6px;
     }
 
     ::-webkit-scrollbar-track {
-      background: #FAFAFA;
+      background: var(--color-off-white);
+      border-left: 3px solid var(--color-black);
     }
 
     ::-webkit-scrollbar-thumb {
-      background: #7B0F17;
+      background: var(--color-primary);
+      border: 3px solid var(--color-black);
     }
 
-    .transition-luxury {
-      transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    /* Neubrutalism Global Utilities */
+    .brutal-border {
+      border: 3px solid var(--color-black) !important;
     }
 
-    .btn-luxury {
-      background-color: #7B0F17;
-      color: white;
-      text-transform: uppercase;
-      font-weight: 800;
-      letter-spacing: 0.15em;
-      transition: all 0.3s ease;
-      border: 1px solid transparent;
+    .brutal-shadow {
+      box-shadow: 6px 6px 0px var(--color-black) !important;
     }
 
-    .btn-luxury:hover {
-      background-color: #C9A24D;
-      border-color: #7B0F17;
-      box-shadow: 0 10px 20px rgba(123, 15, 23, 0.15);
-      transform: translateY(-2px);
+    .brutal-shadow-hover:hover {
+      box-shadow: 8px 8px 0px var(--color-black) !important;
+      transform: translate(-2px, -2px) !important;
     }
 
-    @keyframes gold-shine {
+    .brutal-shadow-active:active {
+      box-shadow: 2px 2px 0px var(--color-black) !important;
+      transform: translate(4px, 4px) !important;
+    }
+
+    @keyframes marquee {
       0% {
-        background-position: -200% center;
+        transform: translateX(0);
       }
 
       100% {
-        background-position: 200% center;
+        transform: translateX(-50%);
       }
     }
 
-    .shine-gold {
-      background: linear-gradient(90deg, #C9A24D, #7B0F17, #C9A24D);
-      background-size: 200% auto;
-      animation: gold-shine 5s linear infinite;
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .glass-panel {
-      background: rgba(255, 255, 255, 0.7);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(0, 0, 0, 0.05);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.03);
-    }
-
-    .mesh-bg {
-      background-color: #FAFAFA;
-      background-image:
-        radial-gradient(at 0% 0%, hsla(355, 78%, 27%, 0.05) 0, transparent 50%),
-        radial-gradient(at 100% 0%, hsla(41, 55%, 54%, 0.05) 0, transparent 50%);
-    }
-
-    .custom-scrollbar::-webkit-scrollbar {
-      width: 5px;
-    }
-
-    .custom-scrollbar::-webkit-scrollbar-track {
-      background: #F3F4F6;
-    }
-
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: #D1D5DB;
-      border-radius: 10px;
-    }
-
-    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-      background: #7B0F17;
-    }
-
-    .text-distressed {
-      text-shadow:
-        1px 1px 0px #000,
-        -1px -1px 0px #000,
-        1px -1px 0px #000,
-        -1px 1px 0px #000,
-        2px 2px 5px rgba(0, 0, 0, 0.5);
-    }
-
-    /* Clip Circle Animation for Product Card Hover */
-    .clip-circle-initial {
-      clip-path: circle(0% at 50% 100%);
-    }
-
-    .clip-circle-hover {
-      clip-path: circle(75% at 50% 100%);
+    .animate-marquee {
+      animation: marquee 15s linear infinite;
     }
   </style>
   <script type="importmap">
@@ -201,7 +189,7 @@
 </script>
 </head>
 
-<body class="mesh-bg text-brand-matte selection:bg-brand-gold selection:text-brand-matte">
+<body class="bg-brand-off-white text-brand-black selection:bg-brand-primary selection:text-white">
   <div id="root"></div>
   <script type="module" src="index.tsx"></script>
 </body>
